@@ -55,7 +55,7 @@ public class ServiceToClient extends Thread {
 
 	private void whatInfo(String attempt) {
 		if (attempt.startsWith("login") || attempt.startsWith("signup")) {
-			memberchk(attempt);
+			memberCheck(attempt);
 		} else if (attempt.startsWith("chat")) {
 			serverSet.chat(attempt, userId, this);
 		} else if (attempt.startsWith("logout")) {
@@ -91,7 +91,7 @@ public class ServiceToClient extends Thread {
 		}
 	}
 
-	private void memberchk(String attempt) {
+	private void memberCheck(String attempt) {
 		String[] info = attempt.split("/");
 		String num = null;
 		if (info[0].equals("login")) {

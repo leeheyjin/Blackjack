@@ -4,11 +4,11 @@ import javax.swing.ImageIcon;
 
 public class Cards {
 
-	ImageIcon front = new ImageIcon();
-	ImageIcon spade[] = new ImageIcon[14];
-	ImageIcon heart[] = new ImageIcon[14];
-	ImageIcon clover[] = new ImageIcon[14];
-	ImageIcon diamond[] = new ImageIcon[14];
+	public ImageIcon front = new ImageIcon();
+	public ImageIcon spade[] = new ImageIcon[14];
+	public ImageIcon heart[] = new ImageIcon[14];
+	public ImageIcon clover[] = new ImageIcon[14];
+	public ImageIcon diamond[] = new ImageIcon[14];
 
 	public Cards() {
 

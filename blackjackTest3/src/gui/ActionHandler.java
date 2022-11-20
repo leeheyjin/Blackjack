@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ActionHandler implements ActionListener {
-	MainFrame mf;
-	GamePanel gp;
+	public MainFrame mf;
+	public GamePanel gp;
 
 	public ActionHandler(GamePanel gp) {
 

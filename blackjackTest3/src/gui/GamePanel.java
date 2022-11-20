@@ -53,12 +53,12 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	private int pickedCardNum;
 	private int dealerHas = 0;
-	private int dealerCardNum[] = new int[6];
-	private int dealerCardValue[] = new int[6];
+	private int[] dealerCardNum = new int[6];
+	private int[] dealerCardValue = new int[6];
 	private int dealerTotalValue;
 	private int playerHas = 0;
-	private int playerCardNum[] = new int[6];
-	private int playerCardValue[] = new int[6];
+	private int[] playerCardNum = new int[6];
+	private int[] playerCardValue = new int[6];
 	private int playerTotalValue;
 	private ImageIcon dealerSecondCard;
 	public String situation = "";
@@ -353,7 +353,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		playerTurn();
 	}
 
-	public void dealerDraw() {
+	private void dealerDraw() {
 		dealerHas++;
 
 		ImageIcon pickedCard = pickRandomCard();
@@ -371,7 +371,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		dealerScore.setText("");
 	}
 
-	public void playerDraw() {
+	private void playerDraw() {
 		playerHas++;
 
 		ImageIcon pickedCard = pickRandomCard();
@@ -404,7 +404,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public void playerNatural() {
+	private void playerNatural() {
 		situation = "playerNatural";
 	}
 
@@ -436,11 +436,11 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public void dealerTurnContinue() {
+	private void dealerTurnContinue() {
 		situation = "dealerTurnContinue";
 	}
 
-	public void checkResult() {
+	private void checkResult() {
 		situation = "checkResult";
 
 		if (playerTotalValue > 21) {
@@ -487,7 +487,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		clientSet.send(gg);
 	}
 
-	public void gameFinished() {
+	private void gameFinished() {
 		situation = "gameFinished";
 		hit.setEnabled(false);
 		stand.setEnabled(false);
@@ -513,7 +513,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		resetButtons();
 	}
 
-	public int playerTotalValue() {
+	private int playerTotalValue() {
 		playerTotalValue = playerCardValue[1] + playerCardValue[2] + playerCardValue[3] + playerCardValue[4]
 				+ playerCardValue[5];
 
@@ -527,7 +527,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		return playerTotalValue;
 	}
 
-	public int dealerTotalValue() {
+	private int dealerTotalValue() {
 		dealerTotalValue = dealerCardValue[1] + dealerCardValue[2] + dealerCardValue[3] + dealerCardValue[4]
 				+ dealerCardValue[5];
 
@@ -541,7 +541,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		return dealerTotalValue;
 	}
 
-	public void adjustPlayerAceValue() {
+	private void adjustPlayerAceValue() {
 		for (int i = 1; i < 6; i++) {
 			if (playerCardNum[i] == 1) {
 				playerCardValue[i] = 1;
@@ -554,7 +554,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public void adjustDealerAceValue() {
+	private void adjustDealerAceValue() {
 		for (int i = 1; i < 6; i++) {
 			if (dealerCardNum[i] == 1) {
 				dealerCardValue[i] = 1;
@@ -567,7 +567,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public ImageIcon pickRandomCard() {
+	private ImageIcon pickRandomCard() {
 		ImageIcon pickedCard = null;
 
 		pickedCardNum = random.nextInt(13) + 1;
@@ -590,7 +590,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		return pickedCard;
 	}
 
-	public int checkCardValue() {
+	private int checkCardValue() {
 		int cardValue = pickedCardNum;
 		if (pickedCardNum == 1) {
 			cardValue = 1;
@@ -620,19 +620,19 @@ public class GamePanel extends JPanel implements ActionListener {
 		reset.setVisible(true);
 	}
 
-	public int getBetMoney() {
+	private int getBetMoney() {
 		return betMoney;
 	}
 
-	public void setBetMoney(int betMoney) {
+	private void setBetMoney(int betMoney) {
 		this.betMoney = betMoney;
 	}
 
-	public int getMoney() {
+	private int getMoney() {
 		return money;
 	}
 
-	public void setMoney(int money) {
+	private void setMoney(int money) {
 		this.money = money;
 	}
 }

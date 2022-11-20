@@ -181,7 +181,7 @@ public class MainFrame extends JFrame implements Settable, ActionListener {
 			} else {
 				String attempt = "login/" + inputID.getText() + "/" + inputPW.getText();
 				System.out.println(attempt + "로 로그인 시도");
-				String log = clientSet.memberchk(attempt);
+				String log = clientSet.memberCheck(attempt);
 				if (log.equals("1")) {
 					idReg.setText("존재하지 않는 ID입니다");
 				} else if (log.equals("2")) {

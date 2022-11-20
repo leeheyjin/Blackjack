@@ -27,13 +27,13 @@ public class SignUpPanel extends JPanel implements Settable, ActionListener {
 	private JButton goBack;
 
 	private JPanel signupPanel;
-	private JTextField id, pw, pwchk;
-	private JLabel idReg, pwReg, pwchkReg;
+	private JTextField id, pw, pwCheck;
+	private JLabel idReg, pwReg, pwCheckReg;
 	private JButton signup;
 
 	private String idok = "사용 가능한 ID";
 	private String pwok = "사용 가능한 비밀번호";
-	private String pwchkok = "비밀번호가 일치합니다.";
+	private String pwCheckok = "비밀번호가 일치합니다.";
 
 	private GridBagLayout gbLayout;
 	private GridBagConstraints gbConstraints;
@@ -130,23 +130,23 @@ public class SignUpPanel extends JPanel implements Settable, ActionListener {
 		gbConstraints.fill = GridBagConstraints.NONE;
 		signupPanel.add(pwReg, gbConstraints);
 
-		JLabel PWchk = new JLabel("Password Check");
-		PWchk.setFont(new Font("times new roman", Font.BOLD, 15));
-		gridBagMake(PWchk, 1, 5, 1, 1);
+		JLabel PWcheck = new JLabel("Password Check");
+		PWcheck.setFont(new Font("times new roman", Font.BOLD, 15));
+		gridBagMake(PWcheck, 1, 5, 1, 1);
 		gbConstraints.fill = GridBagConstraints.NONE;
-		signupPanel.add(PWchk, gbConstraints);
+		signupPanel.add(PWcheck, gbConstraints);
 
-		pwchk = new JTextField();
-		gridBagMake(pwchk, 2, 5, 1, 1);
+		pwCheck = new JTextField();
+		gridBagMake(pwCheck, 2, 5, 1, 1);
 		gbConstraints.fill = GridBagConstraints.NONE;
-		pwchk.setColumns(10);
-		signupPanel.add(pwchk, gbConstraints);
+		pwCheck.setColumns(10);
+		signupPanel.add(pwCheck, gbConstraints);
 
-		pwchkReg = new JLabel("\uBE44\uBC00\uBC88\uD638 \uB2E4\uC2DC \uC785\uB825");
-		pwchkReg.setFont(new Font("굴림", Font.PLAIN, 10));
-		gridBagMake(pwchkReg, 2, 6, 3, 1);
+		pwCheckReg = new JLabel("\uBE44\uBC00\uBC88\uD638 \uB2E4\uC2DC \uC785\uB825");
+		pwCheckReg.setFont(new Font("굴림", Font.PLAIN, 10));
+		gridBagMake(pwCheckReg, 2, 6, 3, 1);
 		gbConstraints.fill = GridBagConstraints.NONE;
-		signupPanel.add(pwchkReg, gbConstraints);
+		signupPanel.add(pwCheckReg, gbConstraints);
 
 		signup = new JButton("Sign Up");
 		signup.setFont(new Font("times new roman", Font.BOLD, 15));
@@ -173,7 +173,7 @@ public class SignUpPanel extends JPanel implements Settable, ActionListener {
 		return true;
 	}
 
-	public String idchk(String id) {
+	public String idCheck(String id) {
 		String txt = "";
 		if (!idLeng(id))
 			txt = "ID는 4~15자 이내로만 입력 가능합니다";
@@ -211,7 +211,7 @@ public class SignUpPanel extends JPanel implements Settable, ActionListener {
 		id.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				String txt = idchk(id.getText());
+				String txt = idCheck(id.getText());
 				if (txt.equals("")) {
 					txt = idok;
 					idReg.setForeground(Color.blue);
@@ -234,15 +234,15 @@ public class SignUpPanel extends JPanel implements Settable, ActionListener {
 				pwReg.setText(txt);
 			}
 		});
-		pwchk.addKeyListener(new KeyAdapter() {
+		pwCheck.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (pwchk.getText().equals(pw.getText())) {
-					pwchkReg.setForeground(Color.blue);
-					pwchkReg.setText(pwchkok);
+				if (pwCheck.getText().equals(pw.getText())) {
+					pwCheckReg.setForeground(Color.blue);
+					pwCheckReg.setText(pwCheckok);
 				} else {
-					pwchkReg.setForeground(Color.red);
-					pwchkReg.setText("비밀번호가 일치하지 않습니다.");
+					pwCheckReg.setForeground(Color.red);
+					pwCheckReg.setText("비밀번호가 일치하지 않습니다.");
 				}
 			}
 		});
@@ -252,9 +252,9 @@ public class SignUpPanel extends JPanel implements Settable, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(signup)) {
-			if (idReg.getText().equals(idok) && pwReg.getText().equals(pwok) && pwchkReg.getText().equals(pwchkok)) {
+			if (idReg.getText().equals(idok) && pwReg.getText().equals(pwok) && pwCheckReg.getText().equals(pwCheckok)) {
 				String attempt = "signup/" + id.getText() + "/" + pw.getText();
-				String sign = clientSet.memberchk(attempt);
+				String sign = clientSet.memberCheck(attempt);
 				if (sign.equals("1")) {
 					idReg.setForeground(Color.red);
 					idReg.setText("이미 사용중인 ID입니다.");

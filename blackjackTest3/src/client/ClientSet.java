@@ -58,7 +58,7 @@ public class ClientSet {
 		private final static ClientSet IT = new ClientSet();
 	}
 
-	public String memberchk(String attempt) {
+	public String memberCheck(String attempt) {
 		try {
 			num = "";
 			sendMsg.write(attempt.getBytes());
