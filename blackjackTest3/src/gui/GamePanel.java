@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.TreeUI;
 
 import client.ClientSet;
 
@@ -63,7 +64,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	public String situation = "";
 
 	private int bWidth = 140, bHeight = 40;
-	private int cardWidth = 120, cardHeight = 187;
+	private int cardWidth = 130, cardHeight = 187;
 
 	public GamePanel(MainFrame mf) {
 		this.mf = mf;
@@ -108,8 +109,9 @@ public class GamePanel extends JPanel implements ActionListener {
 		this.add(guide);
 
 		dealerPanel = new JPanel();
-		dealerPanel.setBounds(265, 70, cardWidth * 5, cardHeight);
+		dealerPanel.setBounds(315, 70, cardWidth * 5, cardHeight);
 		dealerPanel.setLayout(new GridLayout(1, 5));
+		dealerPanel.setVisible(false);
 		this.add(dealerPanel);
 
 		for (int i = 1; i < 6; i++) {
@@ -162,13 +164,13 @@ public class GamePanel extends JPanel implements ActionListener {
 		clientInfo.add(nowMoney);
 		clientPanel.add(clientInfo);
 
-		nowBet = new JLabel("Bet money: " + betMoney, JLabel.RIGHT);
+		nowBet = new JLabel("Bet money: " + betMoney, JLabel.LEFT);
 		nowBet.setFont(new Font("times new roman", Font.BOLD, 20));
-		nowBet.setBounds(1080, 2, 180, bHeight);
+		nowBet.setBounds(2, 45, 300, bHeight);
 		clientPanel.add(nowBet);
 
 		playerPanel = new JPanel();
-		playerPanel.setBounds(265, 442, cardWidth * 5, cardHeight);
+		playerPanel.setBounds(315, 442, cardWidth * 5, cardHeight);
 		playerPanel.setLayout(new GridLayout(1, 5));
 		playerPanel.setVisible(false);
 		this.add(playerPanel);
@@ -253,6 +255,8 @@ public class GamePanel extends JPanel implements ActionListener {
 		reset.addActionListener(this);
 		hit.addActionListener(this);
 		stand.addActionListener(this);
+		playAgain.addActionListener(this);
+		quit.addActionListener(this);
 	}
 
 	@Override
@@ -304,6 +308,7 @@ public class GamePanel extends JPanel implements ActionListener {
 				bet.setVisible(false);
 				reset.setVisible(false);
 
+				start.setVisible(true);
 				start.setEnabled(true);
 				hit.setVisible(true);
 				stand.setVisible(true);
@@ -317,8 +322,11 @@ public class GamePanel extends JPanel implements ActionListener {
 			start.setVisible(false);
 			guide.setVisible(false);
 			playerPanel.setVisible(true);
+			dealerPanel.setVisible(true);
 			hit.setEnabled(true);
 			stand.setEnabled(true);
+			playerScore.setVisible(true);
+			dealerScore.setVisible(true);
 			startGame();
 		} else if (e.getSource().equals(hit)) {
 			playerDraw();
@@ -328,9 +336,10 @@ public class GamePanel extends JPanel implements ActionListener {
 			checkResult();
 			gameFinished();
 		} else if (e.getSource().equals(playAgain)) {
+			betMoney = 0;
+			nowBet.setText("Bet money: " + betMoney);
+			dealerScore.setVisible(false);
 			resetEverything();
-			playAgain.setVisible(false);
-			quit.setVisible(false);
 		} else if (e.getSource().equals(quit)) {
 			mf.goHome();
 		}
@@ -502,7 +511,6 @@ public class GamePanel extends JPanel implements ActionListener {
 		dealerHas = 0;
 
 		resetButtons();
-		startGame();
 	}
 
 	public int playerTotalValue() {
@@ -594,6 +602,16 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
 	public void resetButtons() {
+		playAgain.setVisible(false);
+		quit.setVisible(false);
+		matchResult.setVisible(false);
+		playerPanel.setVisible(false);
+		dealerPanel.setVisible(false);
+		hit.setVisible(false);
+		stand.setVisible(false);
+		playerScore.setVisible(false);
+
+		guide.setVisible(true);
 		b1000.setVisible(true);
 		b5000.setVisible(true);
 		b10000.setVisible(true);
