@@ -328,7 +328,9 @@ public class GamePanel extends JPanel implements ActionListener {
 			checkResult();
 			gameFinished();
 		} else if (e.getSource().equals(playAgain)) {
-			mf.goGame();
+			resetEverything();
+			playAgain.setVisible(false);
+			quit.setVisible(false);
 		} else if (e.getSource().equals(quit)) {
 			mf.goHome();
 		}
@@ -499,7 +501,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		playerHas = 0;
 		dealerHas = 0;
 
-		removeButtons();
+		resetButtons();
 		startGame();
 	}
 
@@ -591,7 +593,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		return cardValue;
 	}
 
-	public void removeButtons() {
+	public void resetButtons() {
 		b1000.setVisible(true);
 		b5000.setVisible(true);
 		b10000.setVisible(true);

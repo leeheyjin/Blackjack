@@ -17,7 +17,7 @@ public class ActionHandler implements ActionListener {
 
 		String command = e.getActionCommand();
 
-		gp.removeButtons();
+		gp.resetButtons();
 
 		switch (command) {
 		case "exit":
