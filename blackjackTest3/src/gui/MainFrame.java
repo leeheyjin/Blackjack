@@ -126,6 +126,7 @@ public class MainFrame extends JFrame implements Settable, ActionListener {
 
 		pwReg = new JLabel("");
 		pwReg.setFont(new Font("굴림", Font.PLAIN, 10));
+		pwReg.setForeground(Color.red);
 		gridBagMake(pwReg, 2, 4, 1, 1);
 		gbConstraints.fill = GridBagConstraints.NONE;
 		loginPanel.add(pwReg, gbConstraints);

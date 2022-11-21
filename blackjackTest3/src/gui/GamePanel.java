@@ -12,15 +12,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.plaf.TreeUI;
+import javax.swing.border.LineBorder;
 
 import client.ClientSet;
 
 public class GamePanel extends JPanel implements ActionListener {
 	public ClientSet clientSet;
-	private MainFrame mf;
+	public MainFrame mf;
 	private Cards cards = new Cards();
 	private Random random = new Random();
+	private ActionHandler aHandler;
 
 	private JPanel backButtonPanel;
 	private JButton back;
@@ -46,7 +47,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	private int betMoney = 0;
 	private JButton join;
 	private JButton b1000, b5000, b10000, b50000, bet, reset;
-	private JButton hit, stand;
+	private JButton hit, stand, continueButton;
 	private JButton playAgain, quit;
 	private JLabel message;
 	private JLabel matchResult;
@@ -100,13 +101,14 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	private void addServer() {
 		serverPanel = new JPanel();
-		serverPanel.setBounds(0, 40, mf.SCREEN_WIDTH, 285);
+		serverPanel.setBounds(0, 40, mf.SCREEN_WIDTH, 245);
+		serverPanel.setBorder(new LineBorder(Color.gray));
 		serverPanel.setLayout(null);
 
 		guide = new JLabel("게임을 시작하려면 Join하여 베팅금을 걸고 Game Start버튼을 클릭하세요.", JLabel.CENTER);
-		guide.setBounds(370, 40, 540, 30);
+		guide.setBounds(370, 0, 540, 30);
 		guide.setFont(new Font("굴림", Font.BOLD, 15));
-		this.add(guide);
+		serverPanel.add(guide);
 
 		dealerPanel = new JPanel();
 		dealerPanel.setBounds(315, 70, cardWidth * 5, cardHeight);
@@ -121,7 +123,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 
 		dealerScore = new JLabel("", JLabel.CENTER);
-		dealerScore.setBounds(570, 245, bWidth, bHeight);
+		dealerScore.setBounds(570, 205, bWidth, bHeight);
 		dealerScore.setFont(new Font("times new roman", Font.BOLD, 20));
 		serverPanel.add(dealerScore);
 
@@ -131,24 +133,25 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	private void addStratButton() {
 		start = new JButton("Start!");
-		start.setBounds(540, 325, 200, 75);
+		start.setBounds(540, 285, 200, 75);
 		start.setEnabled(false);
 		add(start);
 
 		playAgain = new JButton("Play agian");
-		playAgain.setBounds(315, 325, 200, 75);
+		playAgain.setBounds(315, 285, 200, 75);
 		playAgain.setVisible(false);
 		add(playAgain);
 
 		quit = new JButton("Quit");
-		quit.setBounds(765, 325, 200, 75);
+		quit.setBounds(765, 285, 200, 75);
 		quit.setVisible(false);
 		add(quit);
 	}
 
 	private void addClient() {
 		clientPanel = new JPanel();
-		clientPanel.setBounds(0, 400, mf.SCREEN_WIDTH, 285);
+		clientPanel.setBounds(0, 360, mf.SCREEN_WIDTH, 325);
+		clientPanel.setBorder(new LineBorder(Color.gray));
 		clientPanel.setLayout(null);
 
 		clientInfo = new JPanel();
@@ -170,7 +173,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		clientPanel.add(nowBet);
 
 		playerPanel = new JPanel();
-		playerPanel.setBounds(315, 442, cardWidth * 5, cardHeight);
+		playerPanel.setBounds(315, 402, cardWidth * 5, cardHeight);
 		playerPanel.setLayout(new GridLayout(1, 5));
 		playerPanel.setVisible(false);
 		this.add(playerPanel);
@@ -218,24 +221,24 @@ public class GamePanel extends JPanel implements ActionListener {
 		clientPanel.add(reset);
 
 		hit = new JButton("Hit");
-		hit.setBounds(500, 240, bWidth, bHeight);
+		hit.setBounds(500, 280, bWidth, bHeight);
 		hit.setVisible(false);
 		hit.setEnabled(false);
 		clientPanel.add(hit);
 		stand = new JButton("Stand");
-		stand.setBounds(650, 240, bWidth, bHeight);
+		stand.setBounds(650, 280, bWidth, bHeight);
 		stand.setVisible(false);
 		stand.setEnabled(false);
 		clientPanel.add(stand);
 
-		message = new JLabel("", JLabel.RIGHT);
+		message = new JLabel("", JLabel.CENTER);
 		message.setFont(new Font("굴림", Font.BOLD, 15));
-		message.setBounds(0, 245, 490, 40);
+		message.setBounds(340, 240, 600, 40);
 		message.setVisible(false);
 		clientPanel.add(message);
 
 		matchResult = new JLabel("", JLabel.CENTER);
-		matchResult.setBounds(540, 325, 200, 75);
+		matchResult.setBounds(540, 285, 200, 75);
 		matchResult.setVisible(true);
 		matchResult.setFont(new Font("Times new roman", Font.BOLD, 40));
 		this.add(matchResult);
@@ -292,8 +295,16 @@ public class GamePanel extends JPanel implements ActionListener {
 			nowBet.setText("Bet money: " + betMoney);
 			nowMoney.setText("Money " + money);
 		} else if (e.getSource().equals(bet)) {
-			if (money <= 0) {
-				JOptionPane.showMessageDialog(null, "0원보다 적게 베팅할 수 없습니다.", "베팅 금액 오류", 1);
+			if (money < betMoney) {
+				JOptionPane.showMessageDialog(null, "현재 보유 머니보다 적게 베팅할 수 없습니다.", "베팅 금액 오류", 1);
+				b1000.setVisible(true);
+				b5000.setVisible(true);
+				b10000.setVisible(true);
+				b50000.setVisible(true);
+				bet.setVisible(true);
+				reset.setVisible(true);
+			} else if (betMoney == 0) {
+				JOptionPane.showMessageDialog(null, "베팅금을 0원 이하로 베팅할 수 없습니다.", "베팅 금액 오류", 1);
 				b1000.setVisible(true);
 				b5000.setVisible(true);
 				b10000.setVisible(true);
@@ -329,12 +340,24 @@ public class GamePanel extends JPanel implements ActionListener {
 			dealerScore.setVisible(true);
 			startGame();
 		} else if (e.getSource().equals(hit)) {
-			playerDraw();
+			if (situation.equals("playerTurn")) {
+				playerTurn();
+			} else if (situation.equals("playerNatural")) {
+				dealerOpen();
+			} else if (situation.equals("dealerTurnContinue")) {
+				dealerTurn();
+			} else if (situation.equals("gameFinished")) {
+				resetEverything();
+			}
 		} else if (e.getSource().equals(stand)) {
-			start.setVisible(false);
-			dealerOpen();
-			checkResult();
-			gameFinished();
+			if (situation.equals("playerTurn")) {
+				dealerOpen();
+			} else if (situation.contentEquals("gameFinished")) {
+				mf.goHome();
+			} else if (situation.equals("dealerTurnContinue")) {
+				dealerTurn();
+				dealerOpen();
+			}
 		} else if (e.getSource().equals(playAgain)) {
 			betMoney = 0;
 			nowBet.setText("Bet money: " + betMoney);
@@ -342,6 +365,8 @@ public class GamePanel extends JPanel implements ActionListener {
 			resetEverything();
 		} else if (e.getSource().equals(quit)) {
 			mf.goHome();
+		} else if (e.getSource().equals(continueButton)) {
+			dealerTurn();
 		}
 	}
 
@@ -353,7 +378,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		playerTurn();
 	}
 
-	private void dealerDraw() {
+	public void dealerDraw() {
 		dealerHas++;
 
 		ImageIcon pickedCard = pickRandomCard();
@@ -391,12 +416,14 @@ public class GamePanel extends JPanel implements ActionListener {
 		playerDraw();
 
 		if (playerTotalValue > 21) {
-			gameFinished();
-		} else if (playerTotalValue == 21 && playerHas == 2) {
 			dealerOpen();
+		} else if (playerTotalValue == 21 && playerHas == 2) {
+			playerNatural();
 		} else {
 			if (playerHas > 1 && playerHas < 5) {
-				message.setText("Do you want to get more card?>>");
+				message.setText("카드를 더 받고 싶다면? HIT!");
+				hit.setVisible(true);
+				stand.setVisible(true);
 			}
 			if (playerHas == 5) {
 				dealerOpen();
@@ -414,7 +441,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
 		if (playerHas == 2 && playerTotalValue == 21) {
 			checkResult();
-		} else if (dealerTotalValue < 17 && playerTotalValue <= 21) {
+		} else if (dealerTotalValue <= 16 && playerTotalValue <= 21) {
 			dealerTurnContinue();
 		} else {
 			checkResult();
@@ -438,51 +465,67 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	private void dealerTurnContinue() {
 		situation = "dealerTurnContinue";
+		message.setText("딜러의 카드가 16보다 작으므로 Hit 해야합니다. Stand를 클릭해주세요.");
 	}
 
 	private void checkResult() {
 		situation = "checkResult";
 
-		if (playerTotalValue > 21) {
+		if (dealerTotalValue > playerTotalValue && dealerTotalValue < 21) { // 딜러 합 > 플레이어 합 + 딜러 합 < 21
 			matchResult.setText("LOSE!");
 			matchResult.setForeground(Color.red);
 			matchResult.setVisible(true);
-			clientSet.setMoney(clientSet.getMoney() - getBetMoney());
+			nowMoney.setText("Money " + money);
+			clientSet.setMoney(money);
 			gameFinished();
-		} else {
-			if (playerTotalValue == 21 && dealerHas == 2) { // If player is natural
-				if (dealerTotalValue == 21) {
-					matchResult.setText("DRAW!");
-					matchResult.setVisible(true);
-					gameFinished();
-				} else {
-					matchResult.setText("Blackjack!");
-					matchResult.setForeground(Color.blue);
-					matchResult.setVisible(true);
-					clientSet.setMoney((int) (clientSet.getMoney() + getBetMoney() * 1.5));
-					gameFinished();
-				}
-			} else {
-				if (dealerTotalValue < 22 && dealerTotalValue > playerTotalValue) {
-					matchResult.setText("LOSE!");
-					matchResult.setForeground(Color.red);
-					matchResult.setVisible(true);
-					clientSet.setMoney(clientSet.getMoney() - getBetMoney());
-
-					gameFinished();
-				} else if (dealerTotalValue == playerTotalValue) {
-					matchResult.setText("DRAW!");
-					matchResult.setVisible(true);
-					gameFinished();
-				} else {
-					matchResult.setText("WIN!");
-					matchResult.setForeground(Color.blue);
-					matchResult.setVisible(true);
-					clientSet.setMoney(clientSet.getMoney() + getBetMoney());
-					gameFinished();
-				}
-			}
+		} else if (dealerTotalValue > 21) { // 딜러 합 > 21
+			matchResult.setText("WIN!");
+			matchResult.setForeground(Color.blue);
+			matchResult.setVisible(true);
+			money += betMoney * 2;
+			nowMoney.setText("Money " + money);
+			clientSet.setMoney(money);
+			gameFinished();
+		} else if (playerTotalValue > 21) { // 플레이어 합 > 21
+			matchResult.setText("Bust!");
+			matchResult.setForeground(Color.red);
+			matchResult.setVisible(true);
+			nowMoney.setText("Money " + money);
+			clientSet.setMoney(money);
+			gameFinished();
+		} else if (playerTotalValue == 21) { // 플레이어 합 == 21
+			matchResult.setText("Blackjack!");
+			matchResult.setForeground(Color.green);
+			matchResult.setVisible(true);
+			money += betMoney * 2.5;
+			nowMoney.setText("Money " + money);
+			clientSet.setMoney(money);
+			gameFinished();
+		} else if (dealerTotalValue == playerTotalValue) { // 딜러 합 == 플레이어 합
+			matchResult.setText("DRAW!");
+			matchResult.setForeground(Color.black);
+			matchResult.setVisible(true);
+			money += 0;
+			nowMoney.setText("Money " + money);
+			clientSet.setMoney(money);
+			gameFinished();
+		} else if (dealerTotalValue < playerTotalValue && playerTotalValue < 21) { // 딜러 합 < 플레이어 합 + 플레이어 합 < 21
+			matchResult.setText("WIN!");
+			matchResult.setForeground(Color.blue);
+			matchResult.setVisible(true);
+			money += betMoney * 2;
+			nowMoney.setText("Money " + money);
+			clientSet.setMoney(money);
+			gameFinished();
+		} else if (dealerTotalValue == 21) { // 딜러 합 == 21
+			matchResult.setText("LOSE!");
+			matchResult.setForeground(Color.red);
+			matchResult.setVisible(true);
+			nowMoney.setText("Money " + money);
+			clientSet.setMoney(money);
+			gameFinished();
 		}
+
 		String gg = "gg/" + userId + "/" + clientSet.getMoney();
 		clientSet.send(gg);
 	}
@@ -518,8 +561,7 @@ public class GamePanel extends JPanel implements ActionListener {
 				+ playerCardValue[5];
 
 		if (playerTotalValue > 21) {
-			dealerOpen();
-			gameFinished();
+			adjustPlayerAceValue();
 		}
 
 		playerTotalValue = playerCardValue[1] + playerCardValue[2] + playerCardValue[3] + playerCardValue[4]
@@ -532,8 +574,7 @@ public class GamePanel extends JPanel implements ActionListener {
 				+ dealerCardValue[5];
 
 		if (dealerTotalValue > 21) {
-			dealerOpen();
-			gameFinished();
+			adjustDealerAceValue();
 		}
 
 		dealerTotalValue = dealerCardValue[1] + dealerCardValue[2] + dealerCardValue[3] + dealerCardValue[4]
@@ -622,17 +663,5 @@ public class GamePanel extends JPanel implements ActionListener {
 
 	private int getBetMoney() {
 		return betMoney;
-	}
-
-	private void setBetMoney(int betMoney) {
-		this.betMoney = betMoney;
-	}
-
-	private int getMoney() {
-		return money;
-	}
-
-	private void setMoney(int money) {
-		this.money = money;
 	}
 }

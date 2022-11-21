@@ -20,8 +20,8 @@ import javax.swing.border.LineBorder;
 import client.ClientSet;
 
 public class SignUpPanel extends JPanel implements Settable, ActionListener {
+	public ClientSet clientSet;
 	private MainFrame mf;
-	private ClientSet clientSet;
 
 	private JPanel goBackPanel;
 	private JButton goBack;
@@ -72,10 +72,10 @@ public class SignUpPanel extends JPanel implements Settable, ActionListener {
 
 	void addBack() {
 		goBackPanel = new JPanel();
-		goBackPanel.setBounds(0, 0, 80, 40);
+		goBackPanel.setBounds(5, 0, 80, 40);
 
 		goBack = new JButton("Return");
-		goBack.setFont(new Font("times new roman", Font.PLAIN, 15));
+		goBack.setFont(new Font("times new roman", Font.BOLD, 15));
 		goBack.setSize(80, 40);
 		goBackPanel.add(goBack);
 

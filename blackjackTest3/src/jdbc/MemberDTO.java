@@ -3,7 +3,7 @@ package jdbc;
 public class MemberDTO {
 	private String id = null;
 	private String password = null;
-	private int money = 0;
+	private int money = 50000;
 
 	public String getId() {
 		return id;

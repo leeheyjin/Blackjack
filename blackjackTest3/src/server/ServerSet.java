@@ -51,7 +51,7 @@ public class ServerSet {
 	}
 
 	private void sendAll(String userId, String attempt) {
-		String realMsg = "[" + userId + "]" + attempt;
+		String realMsg = "[ " + userId + " ] " + attempt;
 		for (int i = 0; i < cList.size(); i++) {
 			try {
 				cList.get(i).getSendMsg().write(realMsg.getBytes());

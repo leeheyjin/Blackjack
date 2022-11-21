@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ActionHandler implements ActionListener {
-	public MainFrame mf;
 	public GamePanel gp;
 
 	public ActionHandler(GamePanel gp) {
@@ -38,7 +37,9 @@ public class ActionHandler implements ActionListener {
 			if (gp.situation.equals("playerTurn")) {
 				gp.dealerOpen();
 			} else if (gp.situation.contentEquals("gameFinished")) {
-				mf.goHome();
+				gp.mf.goHome();
+			} else if (gp.situation.equals("dealerTurnContinue")) {
+				gp.dealerTurn();
 			}
 			break;
 		}
