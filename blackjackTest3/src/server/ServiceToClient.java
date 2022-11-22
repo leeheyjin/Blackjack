@@ -64,7 +64,7 @@ public class ServiceToClient extends Thread {
 			logout(attempt);
 		} else if (attempt.startsWith("접속자 목록")) {
 			serverSet.updateOnUser(this);
-		} else if (attempt.startsWith("gg/")) {
+		} else if (attempt.startsWith("gg")) {
 			gameOver(attempt);
 		}
 	}
