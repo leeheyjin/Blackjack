@@ -477,6 +477,8 @@ public class GamePanel extends JPanel implements ActionListener {
 			matchResult.setVisible(true);
 			nowMoney.setText("Money " + money);
 			clientSet.setMoney(money);
+			betMoney = 0;
+			nowBet.setText("Bet money: " + betMoney);
 			gameFinished();
 		} else if (dealerTotalValue > 21) { // 딜러 합 > 21
 			matchResult.setText("WIN!");
@@ -485,6 +487,8 @@ public class GamePanel extends JPanel implements ActionListener {
 			money += betMoney * 2;
 			nowMoney.setText("Money " + money);
 			clientSet.setMoney(money);
+			betMoney = 0;
+			nowBet.setText("Bet money: " + betMoney);
 			gameFinished();
 		} else if (playerTotalValue > 21) { // 플레이어 합 > 21
 			matchResult.setText("Bust!");
@@ -492,22 +496,18 @@ public class GamePanel extends JPanel implements ActionListener {
 			matchResult.setVisible(true);
 			nowMoney.setText("Money " + money);
 			clientSet.setMoney(money);
-			gameFinished();
-		} else if (playerTotalValue == 21) { // 플레이어 합 == 21
-			matchResult.setText("Blackjack!");
-			matchResult.setForeground(Color.green);
-			matchResult.setVisible(true);
-			money += betMoney * 2.5;
-			nowMoney.setText("Money " + money);
-			clientSet.setMoney(money);
+			betMoney = 0;
+			nowBet.setText("Bet money: " + betMoney);
 			gameFinished();
 		} else if (dealerTotalValue == playerTotalValue) { // 딜러 합 == 플레이어 합
 			matchResult.setText("DRAW!");
 			matchResult.setForeground(Color.black);
 			matchResult.setVisible(true);
-			money += 0;
+			money += betMoney;
 			nowMoney.setText("Money " + money);
 			clientSet.setMoney(money);
+			betMoney = 0;
+			nowBet.setText("Bet money: " + betMoney);
 			gameFinished();
 		} else if (dealerTotalValue < playerTotalValue && playerTotalValue < 21) { // 딜러 합 < 플레이어 합 + 플레이어 합 < 21
 			matchResult.setText("WIN!");
@@ -516,6 +516,8 @@ public class GamePanel extends JPanel implements ActionListener {
 			money += betMoney * 2;
 			nowMoney.setText("Money " + money);
 			clientSet.setMoney(money);
+			betMoney = 0;
+			nowBet.setText("Bet money: " + betMoney);
 			gameFinished();
 		} else if (dealerTotalValue == 21) { // 딜러 합 == 21
 			matchResult.setText("LOSE!");
@@ -523,6 +525,18 @@ public class GamePanel extends JPanel implements ActionListener {
 			matchResult.setVisible(true);
 			nowMoney.setText("Money " + money);
 			clientSet.setMoney(money);
+			betMoney = 0;
+			nowBet.setText("Bet money: " + betMoney);
+			gameFinished();
+		} else if (playerTotalValue == 21 && dealerTotalValue > 21) { // 플레이어 합 == 21
+			matchResult.setText("Blackjack!");
+			matchResult.setForeground(Color.green);
+			matchResult.setVisible(true);
+			money += betMoney * 1.5;
+			nowMoney.setText("Money " + money);
+			clientSet.setMoney(money);
+			betMoney = 0;
+			nowBet.setText("Bet money: " + betMoney);
 			gameFinished();
 		}
 
