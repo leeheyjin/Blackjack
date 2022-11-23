@@ -31,6 +31,7 @@ public class HomePanel extends JPanel implements ActionListener {
 	private JPanel profilePanel;
 	private JLabel id;
 	private JLabel moneyView;
+	private JButton refill;
 	private String userId;
 	private int money;
 
@@ -117,15 +118,24 @@ public class HomePanel extends JPanel implements ActionListener {
 		profilePanel.setBorder(new LineBorder(Color.gray));
 
 		id = new JLabel("ID        " + userId);
-		id.setBounds(5, 0, 410, 50);
+		id.setBounds(5, 0, 410, 30);
 		id.setFont(new Font("times new roman", Font.BOLD, 20));
+		profilePanel.add(id);
 
 		moneyView = new JLabel("Money " + money);
 		moneyView.setFont(new Font("times new roman", Font.BOLD, 20));
-		moneyView.setBounds(5, 30, 410, 50);
-
-		profilePanel.add(id);
+		moneyView.setBounds(5, 30, 410, 30);
 		profilePanel.add(moneyView);
+
+		JLabel guide = new JLabel("<html>Do you want to refill your money?<br> click Refill button.</html>");
+		guide.setBounds(5, 100, 410, 60);
+		guide.setFont(new Font("times new roman", Font.BOLD, 20));
+		profilePanel.add(guide);
+
+		refill = new JButton("Refill");
+		refill.setBounds(0, 160, 410, 100);
+		refill.setFont(new Font("times new roman", Font.BOLD, 20));
+		profilePanel.add(refill);
 
 		add(info);
 		add(profilePanel);
@@ -214,6 +224,7 @@ public class HomePanel extends JPanel implements ActionListener {
 
 	private void addListener() {
 		goBack.addActionListener(this);
+		refill.addActionListener(this);
 		sendChat.addActionListener(this);
 		writeChat.addActionListener(this);
 		ruleButton.addActionListener(this);
@@ -239,6 +250,16 @@ public class HomePanel extends JPanel implements ActionListener {
 			writeChat.setText("");
 		} else if (e.getSource().equals(ruleButton)) {
 			addDialog();
+		} else if (e.getSource().equals(refill)) {
+			if (money == 0) {
+				JOptionPane.showMessageDialog(null, "OK를 클릭하시면 50000원을 리필합니다.", "안내", 1);
+				money += 50000;
+				clientSet.setMoney(money);
+				moneyView.setText("Money " + money);
+			} else {
+				JOptionPane.showMessageDialog(null, "보유 머니가 0원일 때만 리필이 가능합니다.", "경고", 1);
+			}
+
 		}
 	}
 

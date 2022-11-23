@@ -27,7 +27,7 @@ public class ClientSet {
 	private String userID;
 	private int money;
 
-	public ClientSet() {
+	private ClientSet() {
 		setClient();
 		try {
 			reMsg = clientSocket.getInputStream();

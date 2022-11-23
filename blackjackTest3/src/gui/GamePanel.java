@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	public MainFrame mf;
 	private Cards cards = new Cards();
 	private Random random = new Random();
-	private ActionHandler aHandler;
+//	private ActionHandler aHandler;
 
 	private JPanel backButtonPanel;
 	private JButton back;
@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	private int[] playerCardValue = new int[6];
 	private int playerTotalValue;
 	private ImageIcon dealerSecondCard;
-	public String situation = "";
+	private String situation = "";
 
 	private int bWidth = 140, bHeight = 40;
 	private int cardWidth = 130, cardHeight = 187;
@@ -276,33 +276,37 @@ public class GamePanel extends JPanel implements ActionListener {
 			join.setVisible(false);
 		} else if (e.getSource().equals(b1000)) {
 			betMoney += 1000;
-			money -= 1000;
+//			money -= 1000;
 			nowBet.setText("Bet money: " + betMoney);
-			nowMoney.setText("Money " + money);
+//			nowMoney.setText("Money " + money);
 		} else if (e.getSource().equals(b5000)) {
 			betMoney += 5000;
-			money -= 5000;
+//			money -= 5000;
 			nowBet.setText("Bet money: " + betMoney);
-			nowMoney.setText("Money " + money);
+//			nowMoney.setText("Money " + money);
 		} else if (e.getSource().equals(b10000)) {
 			betMoney += 10000;
-			money -= 10000;
+//			money -= 10000;
 			nowBet.setText("Bet money: " + betMoney);
-			nowMoney.setText("Money " + money);
+//			nowMoney.setText("Money " + money);
 		} else if (e.getSource().equals(b50000)) {
 			betMoney += 50000;
-			money -= 50000;
+//			money -= 50000;
 			nowBet.setText("Bet money: " + betMoney);
-			nowMoney.setText("Money " + money);
+//			nowMoney.setText("Money " + money);
 		} else if (e.getSource().equals(bet)) {
-			if (money < betMoney) {
-				JOptionPane.showMessageDialog(null, "현재 보유 머니보다 적게 베팅할 수 없습니다.", "베팅 금액 오류", 1);
+			if (money < betMoney && money != 0) {
+				JOptionPane.showMessageDialog(null, "현재 보유 머니보다 많게 베팅할 수 없습니다.", "베팅 금액 오류", 1);
 				b1000.setVisible(true);
 				b5000.setVisible(true);
 				b10000.setVisible(true);
 				b50000.setVisible(true);
 				bet.setVisible(true);
 				reset.setVisible(true);
+				betMoney = 0;
+				money = clientSet.getMoney();
+				nowBet.setText("Bet money: " + betMoney);
+				nowMoney.setText("Money " + money);
 			} else if (betMoney == 0) {
 				JOptionPane.showMessageDialog(null, "베팅금을 0원 이하로 베팅할 수 없습니다.", "베팅 금액 오류", 1);
 				b1000.setVisible(true);
@@ -311,7 +315,17 @@ public class GamePanel extends JPanel implements ActionListener {
 				b50000.setVisible(true);
 				bet.setVisible(true);
 				reset.setVisible(true);
-			} else {
+			} else if (money == 0) {
+				JOptionPane.showMessageDialog(null, "보유 머니가 0원이라면 베팅할 수 없습니다. 홈에서 리필받으세요", "베팅 금액 오류", 1);
+				b1000.setVisible(true);
+				b5000.setVisible(true);
+				b10000.setVisible(true);
+				b50000.setVisible(true);
+				bet.setVisible(true);
+				reset.setVisible(true);
+			}else {
+				money -= betMoney;
+				nowMoney.setText("Money " + money);
 				b1000.setVisible(false);
 				b5000.setVisible(false);
 				b10000.setVisible(false);
@@ -378,7 +392,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		playerTurn();
 	}
 
-	public void dealerDraw() {
+	private void dealerDraw() {
 		dealerHas++;
 
 		ImageIcon pickedCard = pickRandomCard();
@@ -411,7 +425,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		playerScore.setText("" + playerTotalValue);
 	}
 
-	public void playerTurn() {
+	private void playerTurn() {
 		situation = "playerTurn";
 		playerDraw();
 
@@ -435,7 +449,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		situation = "playerNatural";
 	}
 
-	public void dealerOpen() {
+	private void dealerOpen() {
 		dealerCardLabels[2].setIcon(dealerSecondCard);
 		dealerScore.setText("" + dealerTotalValue);
 
@@ -448,7 +462,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public void dealerTurn() {
+	private void dealerTurn() {
 		if (dealerTotalValue < 17) {
 
 			dealerDraw();
@@ -500,7 +514,7 @@ public class GamePanel extends JPanel implements ActionListener {
 			nowBet.setText("Bet money: " + betMoney);
 			gameFinished();
 		} else if (dealerTotalValue == playerTotalValue) { // 딜러 합 == 플레이어 합
-			matchResult.setText("DRAW!");
+			matchResult.setText("Push!");
 			matchResult.setForeground(Color.black);
 			matchResult.setVisible(true);
 			money += betMoney;
@@ -528,7 +542,7 @@ public class GamePanel extends JPanel implements ActionListener {
 			betMoney = 0;
 			nowBet.setText("Bet money: " + betMoney);
 			gameFinished();
-		} else if (playerTotalValue == 21 && dealerTotalValue > 21) { // 플레이어 합 == 21
+		} else if (playerTotalValue == 21) { // 플레이어 합 == 21
 			matchResult.setText("Blackjack!");
 			matchResult.setForeground(Color.green);
 			matchResult.setVisible(true);
@@ -552,7 +566,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		quit.setVisible(true);
 	}
 
-	public void resetEverything() {
+	private void resetEverything() {
 		for (int i = 1; i < 6; i++) {
 			playerCardLabels[i].setVisible(false);
 			dealerCardLabels[i].setVisible(false);
@@ -656,7 +670,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		return cardValue;
 	}
 
-	public void resetButtons() {
+	private void resetButtons() {
 		playAgain.setVisible(false);
 		quit.setVisible(false);
 		matchResult.setVisible(false);
@@ -673,9 +687,5 @@ public class GamePanel extends JPanel implements ActionListener {
 		b50000.setVisible(true);
 		bet.setVisible(true);
 		reset.setVisible(true);
-	}
-
-	private int getBetMoney() {
-		return betMoney;
 	}
 }
