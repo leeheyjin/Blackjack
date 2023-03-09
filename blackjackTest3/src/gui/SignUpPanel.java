@@ -274,7 +274,7 @@ public class SignUpPanel extends JPanel implements Settable, ActionListener {
 				JOptionPane.showMessageDialog(null, "회원가입 성공", "회원가입", 1);
 				mf.goMain();
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

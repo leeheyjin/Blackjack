@@ -1,2 +1,2 @@
-select * from membertest
-update membertest set money = 50000 
+select * from member
+delete from member

@@ -18,7 +18,7 @@ public class MemberDAO extends SuperDAO {
 	public void moneyUpdate(MemberDTO mDto) {
 		if (getConn() != null) {
 			try {
-				String sql = "update membertest set money=? where id=?";
+				String sql = "update member set money=? where id=?";
 				setPstmt(conn.prepareStatement(sql));
 				getPstmt().setInt(1, mDto.getMoney());
 				getPstmt().setString(2, mDto.getId());
@@ -38,7 +38,7 @@ public class MemberDAO extends SuperDAO {
 		ArrayList<MemberDTO> mList = new ArrayList<>();
 		if (getConn() != null) {
 			try {
-				String sql = "select * from membertest";
+				String sql = "select * from member";
 				setStmt(conn.createStatement());
 				setRs(getStmt().executeQuery(sql));
 				while (getRs().next()) {
@@ -64,7 +64,7 @@ public class MemberDAO extends SuperDAO {
 		MemberDTO mDto = new MemberDTO();
 		if (getConn() != null) {
 			try {
-				String sql = "select * from membertest where id = ? ";
+				String sql = "select * from member where id = ? ";
 				setPstmt(conn.prepareStatement(sql));
 				getPstmt().setString(1, id);
 				setRs(getPstmt().executeQuery());
@@ -89,7 +89,7 @@ public class MemberDAO extends SuperDAO {
 		int rs = -1;
 		if (getConn() != null) {
 			try {
-				String sql = "insert into membertest (id, password) values (?,?)";
+				String sql = "insert into member (id, password) values (?,?)";
 				setPstmt(conn.prepareStatement(sql));
 				getPstmt().setString(1, m.getId());
 				getPstmt().setString(2, m.getPassword());
